@@ -27,8 +27,27 @@ class StudentQuestionForm(forms.ModelForm):
 
     def clean_attachment(self):
         attachment = self.cleaned_data.get("attachment")
-        if attachment and attachment.size > 10 * 1024 * 1024:
+        if not attachment:
+            return attachment
+
+        allowed_types = {
+            "image/jpeg": {"jpg", "jpeg"},
+            "image/png": {"png"},
+            "image/webp": {"webp"},
+            "application/pdf": {"pdf"},
+            "text/plain": {"txt"},
+        }
+        if attachment.size > 10 * 1024 * 1024:
             raise forms.ValidationError("Please keep uploads under 10 MB.")
+
+        name = attachment.name or ""
+        suffix = name.rsplit(".", 1)[-1].lower() if "." in name else ""
+        content_type = (getattr(attachment, "content_type", "") or "").lower()
+        allowed_extensions = {extension for extensions in allowed_types.values() for extension in extensions}
+        if suffix not in allowed_extensions or content_type not in allowed_types or suffix not in allowed_types[content_type]:
+            raise forms.ValidationError("Upload a JPG, PNG, WEBP, PDF, or TXT file.")
+        if any(character in name for character in ("/", "\\", "\x00")):
+            raise forms.ValidationError("The uploaded filename is not valid.")
         return attachment
 
 

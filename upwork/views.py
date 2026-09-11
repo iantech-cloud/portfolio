@@ -2,7 +2,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db import transaction
 from django.db.models import F
-from django.http import JsonResponse
+from django.core.exceptions import PermissionDenied
+from django.http import HttpResponseNotAllowed, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
@@ -55,6 +56,10 @@ def brief_detail(request, slug):
 @login_required
 def submit_solution(request, slug):
     brief = get_object_or_404(Brief, slug=slug, status__in=("open", "in_review"))
+    if request.method != "POST":
+        return HttpResponseNotAllowed(["POST"])
+    if brief.is_student_question and not request.user.is_staff:
+        raise PermissionDenied
     form = SolutionForm(request.POST)
     if form.is_valid():
         solution = form.save(commit=False)
@@ -66,6 +71,8 @@ def submit_solution(request, slug):
 
 @login_required
 def vote_solution(request, solution_id):
+    if request.method != "POST":
+        return JsonResponse({"error": "method_not_allowed"}, status=405)
     solution = get_object_or_404(Solution, pk=solution_id)
     if solution.author_id == request.user.id:
         return JsonResponse({"error": "self_vote"}, status=403)
@@ -83,9 +90,10 @@ def vote_solution(request, solution_id):
 
 @login_required
 def select_solution(request, solution_id):
+    if request.method != "POST":
+        return HttpResponseNotAllowed(["POST"])
     solution = get_object_or_404(Solution.objects.select_related("brief"), pk=solution_id)
     if not request.user.is_staff and solution.brief.client_id != request.user.id:
-        from django.core.exceptions import PermissionDenied
         raise PermissionDenied
     with transaction.atomic():
         Solution.objects.filter(brief=solution.brief).update(is_selected=False)
