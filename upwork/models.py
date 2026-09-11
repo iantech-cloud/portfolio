@@ -23,6 +23,7 @@ class Brief(TimestampedModel):
     attachment = models.FileField(upload_to="upwork/questions/%Y/%m/", blank=True)
     answer = models.TextField(blank=True)
     answer_preview = models.TextField(blank=True)
+    answer_unlocked = models.BooleanField(default=False)
     answered_at = models.DateTimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):

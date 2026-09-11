@@ -9,7 +9,7 @@ class BriefAdmin(admin.ModelAdmin):
     list_filter = ("status", "is_student_question")
     search_fields = ("title", "description", "client__username")
     prepopulated_fields = {"slug": ("title",)}
-    fieldsets = (("Question", {"fields": ("client", "title", "slug", "description", "math_content", "attachment", "is_student_question", "status")}), ("Official answer", {"fields": ("answer_preview", "answer", "answered_at")}))
+    fieldsets = (("Question", {"fields": ("client", "title", "slug", "description", "math_content", "attachment", "is_student_question", "status")}), ("Official answer", {"fields": ("answer_preview", "answer", "answer_unlocked", "answered_at")}))
 
 
 admin.site.register((Solution, SolutionVote))
