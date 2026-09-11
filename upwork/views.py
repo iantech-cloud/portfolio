@@ -4,8 +4,9 @@ from django.db import transaction
 from django.db.models import F
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 
-from .forms import BriefForm, SolutionForm
+from .forms import BriefForm, SolutionForm, StudentQuestionForm
 from .models import Brief, Solution, SolutionVote
 
 
@@ -13,6 +14,25 @@ def brief_list(request):
     briefs = Brief.objects.filter(status__in=("open", "in_review")).select_related("client")
     page = Paginator(briefs, 10).get_page(request.GET.get("page"))
     return render(request, "upwork/list.html", {"page": page})
+
+
+@login_required
+def ask_question(request):
+    form = StudentQuestionForm(request.POST or None, request.FILES or None)
+    if request.method == "POST" and form.is_valid():
+        question = form.save(commit=False)
+        question.client = request.user
+        question.is_student_question = True
+        question.status = "open"
+        question.save()
+        return redirect(question.get_absolute_url())
+    return render(request, "upwork/ask.html", {"form": form})
+
+
+@login_required
+def my_questions(request):
+    questions = Brief.objects.filter(client=request.user, is_student_question=True).order_by("-created_at")
+    return render(request, "upwork/mine.html", {"questions": questions})
 
 
 @login_required

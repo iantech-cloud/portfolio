@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Ask a question · IANO{% endblock %}
+{% block content %}
+<section class="page-shell detail-header"><span class="eyebrow">24/7 study support</span><h1>The evolution of 24/7 study starts here.</h1><p class="lede">Quick step-by-step solutions. When you need them.</p></section>
+<section class="section page-shell"><form method="post" enctype="multipart/form-data" class="form-card">{% include "partials/form.html" with form=form %}<p class="muted">You can use LaTeX in the formula field and attach a screenshot, PDF, or supporting file.</p><button class="button button-primary" type="submit">post question →</button></form></section>
+{% endblock %}

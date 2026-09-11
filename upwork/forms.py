@@ -10,6 +10,28 @@ class BriefForm(forms.ModelForm):
         widgets = {"description": forms.Textarea(attrs={"rows": 8})}
 
 
+class StudentQuestionForm(forms.ModelForm):
+    class Meta:
+        model = Brief
+        fields = ("title", "description", "math_content", "attachment")
+        labels = {
+            "title": "What do you need help with?",
+            "description": "Describe the problem",
+            "math_content": "Formula or working (LaTeX supported)",
+            "attachment": "Add an image or file",
+        }
+        widgets = {
+            "description": forms.Textarea(attrs={"rows": 7, "placeholder": "Tell me what you have tried and where you got stuck..."}),
+            "math_content": forms.Textarea(attrs={"rows": 4, "placeholder": r"Example: \\[ y = mx + c \\]"}),
+        } 
+
+    def clean_attachment(self):
+        attachment = self.cleaned_data.get("attachment")
+        if attachment and attachment.size > 10 * 1024 * 1024:
+            raise forms.ValidationError("Please keep uploads under 10 MB.")
+        return attachment
+
+
 class SolutionForm(forms.ModelForm):
     class Meta:
         model = Solution

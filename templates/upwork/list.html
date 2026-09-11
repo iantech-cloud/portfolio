@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}Briefs · IANO{% endblock %}
 {% block content %}
-<section class="page-shell page-header row-header"><div><span class="eyebrow">upwork / open briefs</span><h1>Useful work,<br><em>well scoped.</em></h1><p class="lede">Client problems with enough context to attract thoughtful solutions.</p></div><a class="button button-primary" href="{% url 'upwork:create' %}">post a brief +</a></section>
+<section class="page-shell page-header row-header"><div><span class="eyebrow">upwork / study support</span><h1>The evolution of 24/7 study starts here.</h1><p class="lede">Quick step-by-step solutions. When you need them.</p></div><div class="row-actions"><a class="button button-primary" href="{% url 'upwork:ask' %}">ask a question +</a>{% if user.is_authenticated %}<a class="button button-ghost" href="{% url 'upwork:mine' %}">my questions</a>{% endif %}</div></section>
 <section class="section page-shell"><div class="brief-list">{% for brief in page %}<a class="brief-row" href="{{ brief.get_absolute_url }}"><div><span class="tag">{{ brief.status }}</span><h3>{{ brief.title }}</h3><p>{{ brief.description|truncatewords:24 }}</p><div class="mini-tags">{% for tech in brief.stack %}<span>{{ tech }}</span>{% endfor %}</div></div><div class="brief-meta"><strong>{{ brief.solution_count }}</strong><small>solutions</small><span>{{ brief.budget|default:"scope first" }}</span></div></a>{% empty %}<div class="empty-card">No open briefs yet.</div>{% endfor %}</div></section>
 {% endblock %}
