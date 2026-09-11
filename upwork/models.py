@@ -18,6 +18,12 @@ class Brief(TimestampedModel):
     selected_solution = models.ForeignKey("Solution", null=True, blank=True, on_delete=models.SET_NULL, related_name="+")
     solution_count = models.PositiveIntegerField(default=0)
     views_count = models.PositiveIntegerField(default=0)
+    is_student_question = models.BooleanField(default=False)
+    math_content = models.TextField(blank=True, help_text="Optional LaTeX-friendly working or formula content.")
+    attachment = models.FileField(upload_to="upwork/questions/%Y/%m/", blank=True)
+    answer = models.TextField(blank=True)
+    answer_preview = models.TextField(blank=True)
+    answered_at = models.DateTimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
