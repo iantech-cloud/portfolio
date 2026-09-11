@@ -55,8 +55,17 @@ class Command(BaseCommand):
 
         Experience.objects.update_or_create(role="Independent engineer", company="IANO / LABS", defaults={"start_date": date(2020, 1, 1), "location": "Kenya", "description": "Building software, data workflows, and security-minded systems from first principles. I connect technical depth with useful product decisions and teach what I learn.", "stack": ["Python", "Django", "Data", "Cybersecurity"]})
         Education.objects.update_or_create(institution="University studies", degree="Bachelor's degree", defaults={"field": "Mathematics and Chemistry, major in Statistics", "start_date": date(2016, 1, 1), "end_date": date(2020, 12, 31), "details": "Graduated with honors, developing a foundation in analytical thinking, research, problem solving, and evidence-based decisions."})
-        for name, issuer, issued_date in [("Python and web development", "Independent learning", date(2022, 6, 1)), ("Cybersecurity foundations", "Professional development", date(2023, 4, 1)), ("Data analysis and research", "Professional development", date(2024, 2, 1))]:
-            Certification.objects.update_or_create(name=name, issuer=issuer, defaults={"issued_date": issued_date})
+        certifications = [
+            ("Python and web development", "Independent learning", date(2022, 6, 1), ""),
+            ("Cybersecurity foundations", "Professional development", date(2023, 4, 1), "https://www.credly.com/badges/0c40ea8e-867a-418b-8ce8-6688fd0870f2/public_url"),
+            ("Data analysis and research", "Professional development", date(2024, 2, 1), ""),
+        ]
+        for name, issuer, issued_date, credential_url in certifications:
+            Certification.objects.update_or_create(
+                name=name,
+                issuer=issuer,
+                defaults={"issued_date": issued_date, "credential_url": credential_url},
+            )
         Post.objects.get_or_create(title="The best ML system is usually a product decision", defaults={"author": user, "excerpt": "Models matter. The workflow around the model matters more.", "body": "A model can be technically excellent and still fail to create value.\\n\\nThe real work is deciding what signal is useful, who needs it, and what happens after the prediction. That is where the system becomes a product.", "status": "published", "published_at": timezone.now()})
         question_tag, _ = QuestionTag.objects.get_or_create(name="python")
         question, _ = Question.objects.get_or_create(title="How do you decide whether a data pipeline needs a queue?", defaults={"author": user, "body": "I am designing a small ML workflow and want to keep the first version simple without painting the system into a corner. What signals tell you it is time to introduce a queue?", "status": "open"})
