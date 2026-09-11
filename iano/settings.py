@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import hashlib
 import os
 from pathlib import Path
 
@@ -23,21 +24,36 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SESSION_SECRET") or os.environ.get("DJANGO_SECRET_KEY")
+DEBUG = os.environ.get("DJANGO_DEBUG", "0") == "1"
+DATABASE_URL = os.environ.get("DATABASE_URL") or os.environ.get("POSTGRES_URL")
+SECRET_KEY = (
+    os.environ.get("SESSION_SECRET")
+    or os.environ.get("DJANGO_SECRET_KEY")
+    or os.environ.get("SECRET_KEY")
+)
 if not SECRET_KEY:
-    if os.environ.get("DJANGO_DEBUG", "0") == "1":
+    if DEBUG:
         SECRET_KEY = "local-development-only-secret-change-me"
+    elif DATABASE_URL:
+        # Keeps deployments bootable when the platform only provisions database credentials.
+        SECRET_KEY = hashlib.sha256(f"iano-django:{DATABASE_URL}".encode()).hexdigest()
     else:
-        raise RuntimeError("SESSION_SECRET or DJANGO_SECRET_KEY must be set when DJANGO_DEBUG is not enabled")
+        raise RuntimeError("Set SESSION_SECRET or DJANGO_SECRET_KEY in the deployment environment")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DJANGO_DEBUG", "0") == "1"
-
-ALLOWED_HOSTS = [host.strip() for host in os.environ.get("DJANGO_ALLOWED_HOSTS", "localhost,127.0.0.1").split(",") if host.strip()]
-if DEBUG and not ALLOWED_HOSTS:
-    ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+configured_hosts = os.environ.get("DJANGO_ALLOWED_HOSTS", "")
+if configured_hosts:
+    ALLOWED_HOSTS = [host.strip() for host in configured_hosts.split(",") if host.strip()]
+else:
+    ALLOWED_HOSTS = [host for host in (
+        os.environ.get("VERCEL_PROJECT_PRODUCTION_URL"),
+        os.environ.get("VERCEL_URL"),
+        "localhost",
+        "127.0.0.1",
+    ) if host]
 
 if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
@@ -100,8 +116,6 @@ WSGI_APPLICATION = 'iano.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASE_URL = os.environ.get("DATABASE_URL")
 
 DATABASES = {
     "default": dj_database_url.parse(
