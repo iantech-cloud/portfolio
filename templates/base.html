@@ -1,0 +1,44 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}IANO / technical portfolio{% endblock %}</title>
+  <meta name="description" content="A portfolio of Python, machine learning, and systems work.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+<body>
+  <div class="noise"></div>
+  <header class="topbar">
+    <a class="brand" href="{% url 'core:home' %}"><span class="brand-mark">⌁</span> IANO<span class="muted">/</span>LABS</a>
+    <nav>
+      <a href="{% url 'projects:list' %}">work</a>
+      <a href="{% url 'core:about' %}">about</a>
+      <a href="{% url 'skills:resume' %}">resume</a>
+      <a href="{% url 'blog:list' %}">notes</a>
+      <a href="{% url 'qna:list' %}">q&amp;a</a>
+    </nav>
+    <div class="nav-actions">
+      {% if user.is_authenticated %}
+        <a class="avatar-link" href="{% url 'accounts:profile' %}">{{ user.username|slice:":2"|upper }}</a>
+        <a class="button button-ghost" href="{% url 'accounts:logout' %}">log out</a>
+      {% else %}
+        <a class="button button-ghost" href="{% url 'accounts:login' %}">sign in</a>
+      {% endif %}
+    </div>
+  </header>
+  {% if messages %}
+    <div class="flash-wrap">{% for message in messages %}<div class="flash">{{ message }}</div>{% endfor %}</div>
+  {% endif %}
+  <main>{% block content %}{% endblock %}</main>
+  <footer class="footer">
+    <div><span class="status-dot"></span> available for interesting problems</div>
+    <div>built with Python / Django / too much curiosity</div>
+    <div class="footer-links"><a href="{% url 'core:contact' %}">start a conversation ↗</a></div>
+  </footer>
+</body>
+</html>

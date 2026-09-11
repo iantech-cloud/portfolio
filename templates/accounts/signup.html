@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}Create account · IANO{% endblock %}
+{% block content %}<section class="page-shell narrow auth-page"><span class="eyebrow">join the community</span><h1>Make an<br><em>account.</em></h1><form method="post" class="form-card">{% include "partials/form.html" %}<button class="button button-primary" type="submit">create account →</button></form><p class="form-foot">Already a member? <a href="{% url 'accounts:login' %}">Sign in</a></p></section>{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}IANO / systems portfolio{% endblock %}
+{% block content %}
+<section class="hero page-shell">
+  <div class="eyebrow"><span class="status-dot"></span> python engineer · ml builder · technical generalist</div>
+  <h1>Building systems<br><em>that think clearly.</em></h1>
+  <p class="hero-copy">{{ site.hero_text|default:"I turn hard technical problems into calm, useful software." }}</p>
+  <div class="hero-actions"><a class="button button-primary" href="{% url 'projects:list' %}">explore the work <span>↗</span></a><a class="text-link" href="{% url 'core:contact' %}">have a hard problem? →</a></div>
+  <div class="hero-grid">
+    <div class="terminal-card">
+      <div class="terminal-top"><span></span><span></span><span></span><code>~/iano/README.md</code></div>
+      <pre><span class="code-muted">01</span> <span class="code-key">class</span> <span class="code-accent">Builder</span>:
+<span class="code-muted">02</span>   focus = [<span class="code-string">"ML"</span>, <span class="code-string">"infra"</span>, <span class="code-string">"product"</span>]
+<span class="code-muted">03</span>   rule = <span class="code-string">"make it useful"</span>
+<span class="code-muted">04</span>   <span class="code-key">def</span> <span class="code-accent">ship</span>(self, idea):
+<span class="code-muted">05</span>     <span class="code-key">return</span> idea.<span class="code-fn">clarify</span>().<span class="code-fn">build</span>()</pre>
+    </div>
+    <div class="hero-stat"><span>01 / 04</span><strong>systems<br>with intent</strong><p>From model pipelines to tools people actually want to use.</p></div>
+  </div>
+</section>
+<section class="section page-shell">
+  <div class="section-heading"><div><span class="eyebrow">selected work</span><h2>A few things I’ve shipped.</h2></div><a class="text-link" href="{% url 'projects:list' %}">view all work →</a></div>
+  <div class="project-grid">
+    {% for project in projects %}
+      <a class="project-card" href="{{ project.get_absolute_url }}">
+        <div class="card-top"><span class="tag">{{ project.category|default:"CASE STUDY" }}</span><span class="arrow">↗</span></div>
+        <h3>{{ project.title }}</h3><p>{{ project.summary }}</p>
+        <div class="card-bottom"><span>{{ project.impact_metric|default:"built for the real world" }}</span><span>{% for tag in project.tags.all|slice:":3" %}{{ tag.name }}{% if not forloop.last %} · {% endif %}{% endfor %}</span></div>
+      </a>
+    {% empty %}<div class="empty-card">Projects will appear here once they’re added in the admin.</div>{% endfor %}
+  </div>
+</section>
+<section class="section section-split page-shell">
+  <div><span class="eyebrow">current toolkit</span><h2>Fluent in the<br><em>whole stack.</em></h2></div>
+  <div class="skill-pills">{% for skill in skills %}<span class="skill-pill">{{ skill.name }} <small>{{ skill.level }}%</small></span>{% empty %}<span class="muted">Python · Django · scikit-learn · Postgres · Docker</span>{% endfor %}</div>
+</section>
+<section class="section page-shell notes-strip">
+  <div class="section-heading"><div><span class="eyebrow">from the notebook</span><h2>Notes on making things.</h2></div><a class="text-link" href="{% url 'blog:list' %}">read the notes →</a></div>
+  <div class="note-list">{% for post in posts %}<a class="note-row" href="{{ post.get_absolute_url }}"><span>{{ forloop.counter|stringformat:"02d" }}</span><strong>{{ post.title }}</strong><small>{{ post.reading_time }} min read</small><span>↗</span></a>{% empty %}<div class="empty-card">Technical notes are coming soon.</div>{% endfor %}</div>
+</section>
+{% endblock %}

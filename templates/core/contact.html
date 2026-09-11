@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Contact · IANO{% endblock %}
+{% block content %}
+<section class="page-shell narrow intro-page"><span class="eyebrow">contact / 01</span><h1>Let’s build<br><em>something useful.</em></h1><p class="lede">Have a technical problem, an ambitious idea, or a system that needs untangling? Send a note.</p><div class="contact-grid"><div class="contact-meta"><span class="muted">direct line</span><a href="mailto:{{ site.email }}">{{ site.email }}</a><span class="muted">based in</span><strong>{{ site.location|default:"Nairobi, Kenya" }}</strong></div><form method="post" class="form-card">{% include "partials/form.html" %}<button class="button button-primary" type="submit">send message ↗</button></form></div></section>
+{% endblock %}

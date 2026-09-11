@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Q&amp;A · IANO{% endblock %}
+{% block content %}
+<section class="page-shell page-header row-header"><div><span class="eyebrow">q&amp;a / collective intelligence</span><h1>Ask better<br><em>questions.</em></h1><p class="lede">A space for practical answers to hard engineering problems.</p></div><a class="button button-primary" href="{% url 'qna:ask' %}">ask a question +</a></section>
+<section class="section page-shell"><form class="search-form"><input name="q" value="{{ query }}" placeholder="search the archive..."><button class="button button-ghost">search ↗</button></form><div class="question-list">{% for question in page %}<a class="question-row" href="{{ question.get_absolute_url }}"><div class="question-stats"><strong>{{ question.vote_count }}</strong><small>votes</small></div><div class="question-main"><h3>{{ question.title }}</h3><p>{{ question.body|truncatewords:24 }}</p><div class="mini-tags">{% for tag in question.tags.all %}<span>{{ tag.name }}</span>{% endfor %}</div></div><div class="question-meta"><strong>{{ question.answer_count }}</strong><small>answers</small><span>{{ question.created_at|timesince }} ago</span></div></a>{% empty %}<div class="empty-card">No questions yet. Start the conversation.</div>{% endfor %}</div></section>
+{% endblock %}

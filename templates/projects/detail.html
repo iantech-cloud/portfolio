@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}{{ project.title }} · IANO{% endblock %}
+{% block content %}
+<section class="page-shell detail-header"><a class="back-link" href="{% url 'projects:list' %}">← all work</a><span class="eyebrow">{{ project.category|default:"case study" }} / {{ project.status }}</span><h1>{{ project.title }}</h1><p class="lede">{{ project.summary }}</p><div class="detail-links">{% if project.github_url %}<a class="button button-primary" href="{{ project.github_url }}" target="_blank">view source ↗</a>{% endif %}{% if project.demo_url %}<a class="button button-ghost" href="{{ project.demo_url }}" target="_blank">live demo ↗</a>{% endif %}</div></section>
+<section class="section page-shell detail-layout"><article class="prose"><p class="eyebrow">the build</p>{{ project.description|linebreaks }}</article><aside class="detail-aside"><div><span class="muted">impact</span><strong>{{ project.impact_metric|default:"Thoughtful software" }}</strong></div><div><span class="muted">stack</span><div class="mini-tags">{% for tech in project.tech_stack %}<span>{{ tech }}</span>{% endfor %}</div></div><div><span class="muted">signals</span><strong>{{ project.views_count }} views</strong></div></aside></section>
+{% endblock %}

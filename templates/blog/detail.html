@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}{{ post.title }} · IANO{% endblock %}
+{% block content %}
+<section class="page-shell article-header"><a class="back-link" href="{% url 'blog:list' %}">← all notes</a><span class="eyebrow">{{ post.published_at|date:"M d, Y" }} · {{ post.reading_time }} min read</span><h1>{{ post.title }}</h1><p class="lede">{{ post.excerpt }}</p></section>
+<section class="section page-shell article-layout"><article class="prose">{{ post.body|linebreaks }}</article><aside class="article-aside"><span class="muted">written by</span><strong>{{ post.author.get_full_name|default:post.author.username }}</strong><div class="mini-tags">{% for tag in post.tags.all %}<span>{{ tag.name }}</span>{% endfor %}</div></aside></section>
+<section class="section page-shell comments"><span class="eyebrow">discussion</span>{% for comment in post.comments.all %}<div class="comment"><strong>@{{ comment.author.username }}</strong><p>{{ comment.body }}</p></div>{% empty %}<p class="muted">Be the first to add a thought.</p>{% endfor %}<form method="post" class="comment-form">{% include "partials/form.html" %}<button class="button button-ghost" type="submit">add comment →</button></form></section>
+{% endblock %}

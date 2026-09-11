@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} · IANO{% endblock %}
+{% block content %}<section class="page-shell narrow auth-page"><span class="eyebrow">upwork / create</span><h1>{{ title }}</h1><p class="lede">Make the problem legible. The best solutions start with a clear brief.</p><form method="post" class="form-card">{% include "partials/form.html" %}<button class="button button-primary" type="submit">publish brief →</button></form></section>{% endblock %}

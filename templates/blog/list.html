@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+{% block title %}Notes · IANO{% endblock %}
+{% block content %}
+<section class="page-shell page-header"><span class="eyebrow">notes / field log</span><h1>Thinking out<br><em>loud.</em></h1><p class="lede">Writing about Python, ML systems, product decisions, and the details that make software hold up.</p></section>
+<section class="section page-shell"><div class="note-list note-list-full">{% for post in page %}<a class="note-row note-row-tall" href="{{ post.get_absolute_url }}"><span class="note-index">{{ forloop.counter|stringformat:"02d" }}</span><div><strong>{{ post.title }}</strong><p>{{ post.excerpt }}</p></div><small>{{ post.reading_time }} min read<br>{{ post.published_at|date:"M d, Y" }}</small><span>↗</span></a>{% empty %}<div class="empty-card">No published notes yet.</div>{% endfor %}</div></section>
+{% endblock %}
