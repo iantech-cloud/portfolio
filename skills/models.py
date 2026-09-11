@@ -51,7 +51,19 @@ class Certification(TimestampedModel):
     name = models.CharField(max_length=180)
     issuer = models.CharField(max_length=180)
     issued_date = models.DateField()
-    credential_url = models.URLField(blank=True)
+    credential_url = models.URLField(
+        blank=True,
+        help_text="Public verification page, such as a Credly public_url.",
+    )
+    badge_image_url = models.URLField(
+        blank=True,
+        help_text="Direct HTTPS image URL for the badge artwork. Optional; a safe fallback is shown when unavailable.",
+    )
+    badge_alt = models.CharField(
+        max_length=180,
+        blank=True,
+        help_text="Accessible description for the badge image.",
+    )
 
     class Meta:
         ordering = ("-issued_date",)
