@@ -15,7 +15,11 @@
   <div class="noise"></div>
   <header class="topbar">
     <a class="brand" href="{% url 'core:home' %}"><span class="brand-mark">⌁</span> IANO<span class="muted">/</span>LABS</a>
-    <nav>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation">
+      <span class="sr-only">Open navigation</span>
+      <span></span><span></span><span></span>
+    </button>
+    <nav id="primary-navigation" class="primary-navigation" aria-label="Primary navigation">
       <a href="{% url 'projects:list' %}">work</a>
       <a href="{% url 'core:about' %}">about</a>
       <a href="{% url 'skills:resume' %}">resume</a>
@@ -41,5 +45,24 @@
     <div>built with Python / Django / too much curiosity</div>
     <div class="footer-links"><a href="{% url 'core:contact' %}">start a conversation ↗</a></div>
   </footer>
+  <script>
+    (() => {
+      const toggle = document.querySelector('.menu-toggle');
+      const navigation = document.querySelector('#primary-navigation');
+      if (!toggle || !navigation) return;
+      toggle.addEventListener('click', () => {
+        const expanded = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!expanded));
+        toggle.querySelector('.sr-only').textContent = expanded ? 'Open navigation' : 'Close navigation';
+        navigation.classList.toggle('is-open', !expanded);
+      });
+      navigation.addEventListener('click', (event) => {
+        if (event.target.closest('a')) {
+          toggle.setAttribute('aria-expanded', 'false');
+          navigation.classList.remove('is-open');
+        }
+      });
+    })();
+  </script>
 </body>
 </html>

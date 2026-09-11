@@ -27,7 +27,7 @@
         <h3>{{ project.title }}</h3><p>{{ project.summary }}</p>
         <div class="card-bottom"><span>{{ project.impact_metric|default:"built for the real world" }}</span><span>{% for tag in project.tags.all|slice:":3" %}{{ tag.name }}{% if not forloop.last %} · {% endif %}{% endfor %}</span></div>
       </a>
-    {% empty %}<div class="empty-card">Projects will appear here once they’re added in the admin.</div>{% endfor %}
+    {% empty %}<div class="empty-card">Selected projects are being prepared. Check back soon for the work behind the ideas.</div>{% endfor %}
   </div>
 </section>
 <section class="section section-split page-shell">
