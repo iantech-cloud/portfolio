@@ -3,7 +3,7 @@ from django.shortcuts import redirect, render
 
 from blog.models import Post
 from projects.models import Project
-from skills.models import Experience, Skill, SkillCategory
+from skills.models import Certification, Education, Experience, Skill, SkillCategory
 
 from .forms import ContactForm
 from .models import ContactMessage, SiteSettings
@@ -22,7 +22,17 @@ def home(request):
 def about(request):
     return render(request, "core/about.html", {
         "site": SiteSettings.objects.first(),
-        "experience": Experience.objects.all()[:4],
+        "experience": Experience.objects.all()[:6],
+        "education": Education.objects.all(),
+        "categories": SkillCategory.objects.prefetch_related("skills"),
+        "certifications": Certification.objects.all(),
+    })
+
+
+def certificates(request):
+    return render(request, "core/certificates.html", {
+        "site": SiteSettings.objects.first(),
+        "certifications": Certification.objects.all(),
         "categories": SkillCategory.objects.prefetch_related("skills"),
     })
 

@@ -8,7 +8,7 @@ from blog.models import Post
 from core.models import SiteSettings
 from projects.models import Category, Project, Tag as ProjectTag
 from qna.models import Question, Tag as QuestionTag
-from skills.models import Experience, Skill, SkillCategory
+from skills.models import Certification, Education, Experience, Skill, SkillCategory
 
 
 class Command(BaseCommand):
@@ -17,10 +17,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         site, _ = SiteSettings.objects.get_or_create(pk=1)
         site.site_name = "IANO / systems portfolio"
-        site.role = "Python engineer, ML builder, systems thinker"
-        site.hero_text = "I turn hard technical problems into calm, useful software."
-        site.about_text = "I build reliable products at the intersection of Python, machine learning, and thoughtful systems design."
-        site.location = "Nairobi, Kenya"
+        site.role = "Developer, data enthusiast, cybersecurity practitioner, researcher, entrepreneur, and teacher"
+        site.hero_text = "I connect mathematics, software, data, and security to solve real problems."
+        site.about_text = "I am Ian Muiruri Waiganjo, a technology-focused professional who builds systems, studies evidence, and keeps learning across disciplines."
+        site.location = "Kenya"
         site.save()
 
         user, created = User.objects.get_or_create(username="iano", defaults={"email": "hello@example.com", "first_name": "Iano"})
@@ -53,7 +53,10 @@ class Command(BaseCommand):
             for name, level, years in skills:
                 Skill.objects.update_or_create(category=skill_category, name=name, defaults={"level": level, "years": years})
 
-        Experience.objects.get_or_create(role="Independent engineer", company="IANO / LABS", defaults={"start_date": date(2020, 1, 1), "description": "Building Python products, ML systems, and developer tools from first principles. I care about the seam between technical depth and useful product decisions.", "stack": ["Python", "Django", "ML", "Postgres"]})
+        Experience.objects.update_or_create(role="Independent engineer", company="IANO / LABS", defaults={"start_date": date(2020, 1, 1), "location": "Kenya", "description": "Building software, data workflows, and security-minded systems from first principles. I connect technical depth with useful product decisions and teach what I learn.", "stack": ["Python", "Django", "Data", "Cybersecurity"]})
+        Education.objects.update_or_create(institution="University studies", degree="Bachelor's degree", defaults={"field": "Mathematics and Chemistry, major in Statistics", "start_date": date(2016, 1, 1), "end_date": date(2020, 12, 31), "details": "Graduated with honors, developing a foundation in analytical thinking, research, problem solving, and evidence-based decisions."})
+        for name, issuer, issued_date in [("Python and web development", "Independent learning", date(2022, 6, 1)), ("Cybersecurity foundations", "Professional development", date(2023, 4, 1)), ("Data analysis and research", "Professional development", date(2024, 2, 1))]:
+            Certification.objects.update_or_create(name=name, issuer=issuer, defaults={"issued_date": issued_date})
         Post.objects.get_or_create(title="The best ML system is usually a product decision", defaults={"author": user, "excerpt": "Models matter. The workflow around the model matters more.", "body": "A model can be technically excellent and still fail to create value.\\n\\nThe real work is deciding what signal is useful, who needs it, and what happens after the prediction. That is where the system becomes a product.", "status": "published", "published_at": timezone.now()})
         question_tag, _ = QuestionTag.objects.get_or_create(name="python")
         question, _ = Question.objects.get_or_create(title="How do you decide whether a data pipeline needs a queue?", defaults={"author": user, "body": "I am designing a small ML workflow and want to keep the first version simple without painting the system into a corner. What signals tell you it is time to introduce a queue?", "status": "open"})
