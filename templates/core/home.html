@@ -18,7 +18,7 @@
     <div class="hero-stat"><span>01 / 04</span><strong>systems<br>with intent</strong><p>From model pipelines to tools people actually want to use.</p></div>
   </div>
 </section>
-<section class="section page-shell">
+{% if projects %}<section class="section page-shell">
   <div class="section-heading"><div><span class="eyebrow">selected work</span><h2>A few things I’ve shipped.</h2></div><a class="text-link" href="{% url 'projects:list' %}">view all work →</a></div>
   <div class="project-grid">
     {% for project in projects %}
@@ -27,15 +27,15 @@
         <h3>{{ project.title }}</h3><p>{{ project.summary }}</p>
         <div class="card-bottom"><span>{{ project.impact_metric|default:"built for the real world" }}</span><span>{% for tag in project.tags.all|slice:":3" %}{{ tag.name }}{% if not forloop.last %} · {% endif %}{% endfor %}</span></div>
       </a>
-    {% empty %}<div class="empty-card">Selected projects are being prepared. Check back soon for the work behind the ideas.</div>{% endfor %}
+    {% endfor %}
   </div>
-</section>
+</section>{% endif %}
 <section class="section section-split page-shell">
   <div><span class="eyebrow">current toolkit</span><h2>Fluent in the<br><em>whole stack.</em></h2></div>
   <div class="skill-pills">{% for skill in skills %}<span class="skill-pill">{{ skill.name }} <small>{{ skill.level }}%</small></span>{% empty %}<span class="muted">Python · Django · scikit-learn · Postgres · Docker</span>{% endfor %}</div>
 </section>
-<section class="section page-shell notes-strip">
+{% if posts %}<section class="section page-shell notes-strip">
   <div class="section-heading"><div><span class="eyebrow">from the notebook</span><h2>Notes on making things.</h2></div><a class="text-link" href="{% url 'blog:list' %}">read the notes →</a></div>
-  <div class="note-list">{% for post in posts %}<a class="note-row" href="{{ post.get_absolute_url }}"><span>{{ forloop.counter|stringformat:"02d" }}</span><strong>{{ post.title }}</strong><small>{{ post.reading_time }} min read</small><span>↗</span></a>{% empty %}<div class="empty-card">Technical notes are coming soon.</div>{% endfor %}</div>
-</section>
+  <div class="note-list">{% for post in posts %}<a class="note-row" href="{{ post.get_absolute_url }}"><span>{{ forloop.counter|stringformat:"02d" }}</span><strong>{{ post.title }}</strong><small>{{ post.reading_time }} min read</small><span>↗</span></a>{% endfor %}</div>
+</section>{% endif %}
 {% endblock %}
