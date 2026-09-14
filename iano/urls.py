@@ -32,7 +32,7 @@ urlpatterns = [
     path("qna/", include("qna.urls")),
     path("upwork/", include("upwork.urls")),
     path("guestbook/", include("guestbook.urls")),
-    path("accounts/social/", include("allauth.urls")),
+    path("accounts/social/", include("allauth.socialaccount.urls")),
 ]
 
 
