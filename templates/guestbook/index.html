@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Guestbook · {{ site_config.name|default:'Portfolio' }}{% endblock %}
+{% block content %}
+<section class="page-hero"><p class="eyebrow">Community</p><h1>Guestbook</h1><p class="lede">A small corner for kind words, questions, and hello's from people passing through.</p></section>
+<section class="content-grid">
+  <div class="stack">
+    {% for entry in entries %}<article class="card"><p>{{ entry.message }}</p><p class="muted">{{ entry.author.get_full_name|default:entry.author.username }} · {{ entry.created_at|date:"M j, Y" }}</p></article>{% empty %}<div class="empty-state">No notes yet. Be the first to sign the guestbook.</div>{% endfor %}
+  </div>
+  <aside class="card"><h2>Leave a note</h2>{% if user.is_authenticated %}<form method="post">{% csrf_token %}{{ form.as_p }}<button class="button button-primary" type="submit">Sign guestbook</button></form>{% else %}<p class="muted">Sign in to leave a note.</p><a class="button button-primary" href="{% url 'accounts:login' %}?next={{ request.path }}">Sign in</a>{% endif %}</aside>
+</section>
+{% endblock %}

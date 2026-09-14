@@ -6,6 +6,9 @@ requires-python = ">=3.12"
 dependencies = [
     "dj-database-url>=3.1.2",
     "django==4.2.23",
+    "django-allauth>=65.19.3",
+    "django-ckeditor-5>=0.2.20",
+    "django-otp>=1.7.3",
     "psycopg[binary]>=3.3.5",
     "reportlab>=5.0.1",
 ]
