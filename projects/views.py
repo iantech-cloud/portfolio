@@ -1,6 +1,9 @@
+from django.core.cache import cache
 from django.core.paginator import Paginator
-from django.db.models import F, Q
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.cache import cache_page
+from django.views.decorators.vary import vary_on_headers
 
 from .models import Category, Project
 
@@ -17,7 +20,15 @@ def project_list(request):
     return render(request, "projects/list.html", {"page": page, "categories": Category.objects.all(), "query": query, "active_category": category})
 
 
+@cache_page(300, key_prefix="project-detail")
+@vary_on_headers("Cookie")
 def project_detail(request, slug):
-    project = get_object_or_404(Project.objects.select_related("category").prefetch_related("tags", "gallery"), slug=slug)
-    Project.objects.filter(pk=project.pk).update(views_count=F("views_count") + 1)
+    cache_key = f"project-detail:{slug}"
+    project = cache.get(cache_key)
+    if project is None:
+        project = get_object_or_404(
+            Project.objects.select_related("category").prefetch_related("tags"),
+            slug=slug,
+        )
+        cache.set(cache_key, project, 300)
     return render(request, "projects/detail.html", {"project": project})

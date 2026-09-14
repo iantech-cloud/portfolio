@@ -142,6 +142,14 @@ WSGI_APPLICATION = 'iano.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "iano-project-pages",
+        "TIMEOUT": 300,
+    }
+}
+
 DATABASES = {
     "default": dj_database_url.parse(
         DATABASE_URL or f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
@@ -200,7 +208,9 @@ LOGIN_REDIRECT_URL = "core:home"
 LOGOUT_REDIRECT_URL = "core:home"
 
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "portfolio@ianmuiruri.com")
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "muiruriian82@gmail.com")
+CONTACT_PHONE = "+63 920 418 5705"
+CONTACT_WHATSAPP_URL = "https://wa.me/639204185705"
 EMAIL_HOST = os.environ.get("EMAIL_HOST", "")
 EMAIL_PORT = int(os.environ.get("EMAIL_PORT", "587"))
 EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
