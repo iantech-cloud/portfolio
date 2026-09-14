@@ -35,7 +35,13 @@ class Command(BaseCommand):
             categories[name], _ = Category.objects.get_or_create(slug=slug, defaults={"name": name})
 
         tags = {}
-        for name in ["Python", "Django", "ML", "Data", "Systems", "Cybersecurity", "PostgreSQL", "JavaScript", "TypeScript", "WordPress", "M-Pesa"]:
+        for name in [
+            "Python", "Django", "ML", "Data", "Systems", "Cybersecurity", "PostgreSQL",
+            "JavaScript", "TypeScript", "WordPress", "M-Pesa", "Product", "Business",
+            "Digital services", "Supabase", "Payments", "WooCommerce", "Database", "Education",
+            "Web", "Content", "Git", "HTTP", "PHP", "Linux", "Security", "C++", "Statistics",
+            "APIs", "E-commerce", "Referrals", "GitHub", "Deployment",
+        ]:
             tags[name], _ = ProjectTag.objects.get_or_create(name=name)
         project_data = [
             ("HustleHub Africa", "A multi-opportunity digital earning platform built around users, referrals, wallets, and payments.", "A product ecosystem spanning profiles, referrals, wallets, withdrawals, M-Pesa payments, surveys, gaming, foreigner chat, notifications, support, reporting, blogs, and administrative tools. A practical education in business logic, callbacks, permissions, reliability, and secure production systems.", categories["Product systems"], ["Python", "Django", "PostgreSQL", "M-Pesa"], "real users, real business logic"),
