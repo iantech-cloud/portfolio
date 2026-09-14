@@ -34,5 +34,24 @@
   <script>
     (() => { const toggle=document.querySelector('.menu-toggle'), nav=document.querySelector('#primary-navigation'), theme=document.querySelector('.theme-toggle'); if(toggle&&nav){toggle.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')==='true';toggle.setAttribute('aria-expanded',String(!open));nav.classList.toggle('is-open',!open);});nav.addEventListener('click',e=>{if(e.target.closest('a')){toggle.setAttribute('aria-expanded','false');nav.classList.remove('is-open');}});} if(theme){theme.addEventListener('click',()=>{const next=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=next;});} })();
   </script>
+  <script>
+    (() => {
+      const modelContext = window.navigator?.modelContext || window.document?.modelContext;
+      if (!modelContext || typeof modelContext.provideContext !== 'function') return;
+      const absoluteUrl = (path) => new URL(path, window.location.origin).href;
+      const projectRecords = () => Array.from(document.querySelectorAll('[data-project-title]')).map((card) => ({
+        title: card.dataset.projectTitle || '',
+        summary: card.dataset.projectSummary || '',
+        url: absoluteUrl(card.dataset.projectUrl || card.getAttribute('href') || '/projects/')
+      }));
+      const tools = [
+        { name: 'get_portfolio_profile', description: 'Get Ian Muiruri’s professional focus and contact destinations.', inputSchema: { type: 'object', properties: {} }, execute: async () => ({ name: 'Ian Muiruri', focus: 'Software engineering, Python, Django, cybersecurity, data, and automation.', email: 'muiruriian82@gmail.com', phone: '+63 920 418 5705', contactUrl: absoluteUrl('/contact/') }) },
+        { name: 'search_portfolio_projects', description: 'Search the projects currently visible in Ian Muiruri’s portfolio.', inputSchema: { type: 'object', properties: { query: { type: 'string', description: 'A project title or keyword.' } } }, execute: async ({ query = '' }) => { const needle = String(query).trim().toLowerCase(); return projectRecords().filter((project) => !needle || `${project.title} ${project.summary}`.toLowerCase().includes(needle)); } },
+        { name: 'get_current_project', description: 'Get details for the project currently open in the portfolio.', inputSchema: { type: 'object', properties: {} }, execute: async () => { const project = document.querySelector('[data-webmcp-project]'); if (!project) return { error: 'No project detail page is open.' }; return { title: project.dataset.projectTitle || '', summary: project.dataset.projectSummary || '', description: project.dataset.projectDescription || '', url: absoluteUrl(project.dataset.projectUrl || window.location.pathname) }; } },
+        { name: 'get_contact_options', description: 'Get contact options without sending a message or navigating the visitor.', inputSchema: { type: 'object', properties: {} }, execute: async () => ({ email: 'muiruriian82@gmail.com', phone: '+63 920 418 5705', whatsapp: 'https://wa.me/639204185705', contactUrl: absoluteUrl('/contact/') }) }
+      ];
+      try { modelContext.provideContext({ tools }); } catch (error) { console.warn('[WebMCP] Tool registration unavailable.', error); }
+    })();
+  </script>
 </body>
 </html>
