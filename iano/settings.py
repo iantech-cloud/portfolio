@@ -176,7 +176,9 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
+# This portfolio is currently English-only. Disabling Django's translation loader
+# avoids parsing optional third-party locale catalogs during deployment checks.
+USE_I18N = False
 
 USE_TZ = True
 
