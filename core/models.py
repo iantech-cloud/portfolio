@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 from common.models import TimestampedModel
@@ -31,3 +32,29 @@ class ContactMessage(TimestampedModel):
 
     class Meta:
         ordering = ("-created_at",)
+
+
+class FAQItem(TimestampedModel):
+    question = models.CharField(max_length=240)
+    answer = models.TextField()
+    is_published = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ("order", "question")
+
+
+class AuditLog(TimestampedModel):
+    actor = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
+    action = models.CharField(max_length=120)
+    object_type = models.CharField(max_length=120, blank=True)
+    object_id = models.CharField(max_length=120, blank=True)
+    metadata = models.JSONField(default=dict, blank=True)
+
+
+class Notification(TimestampedModel):
+    recipient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    title = models.CharField(max_length=220)
+    message = models.TextField()
+    is_read = models.BooleanField(default=False)
+    link = models.CharField(max_length=255, blank=True)

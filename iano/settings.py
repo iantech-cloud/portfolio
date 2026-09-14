@@ -79,6 +79,12 @@ INSTALLED_APPS = [
     'projects',
     'skills',
     'blog',
+    'newsletter',
+    'search',
+    'dashboard',
+    'seo',
+    'media_library',
+    'django_ckeditor_5',
     'qna',
     'upwork',
 ]

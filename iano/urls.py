@@ -26,6 +26,10 @@ urlpatterns = [
     path("projects/", include("projects.urls")),
     path("skills/", include("skills.urls")),
     path("blog/", include("blog.urls")),
+    path("newsletter/", include("newsletter.urls")),
+    path("search/", include("search.urls")),
+    path("dashboard/", include("dashboard.urls")),
+    path("ckeditor5/", include("django_ckeditor_5.urls")),
     path("qna/", include("qna.urls")),
     path("upwork/", include("upwork.urls")),
 ]

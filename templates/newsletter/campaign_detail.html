@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<main class="container page-shell prose"><p class="eyebrow">Newsletter archive</p><h1>{{ campaign.title }}</h1><p class="muted">{{ campaign.sent_at|date:'F j, Y' }}</p>{{ campaign.html_body|safe }}</main>{% endblock %}
