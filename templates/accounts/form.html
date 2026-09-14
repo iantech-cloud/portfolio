@@ -1,0 +1,1 @@
+{% extends "base.html" %}{% block content %}<section class="page-hero"><p class="eyebrow">Account</p><h1>Account form</h1></section><form class="card form-stack" method="post">{% csrf_token %}{{ form.as_p }}<button class="button button-primary" type="submit">Continue</button></form>{% endblock %}

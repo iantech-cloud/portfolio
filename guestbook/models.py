@@ -63,3 +63,21 @@ class SpeakingEvent(TimestampedModel):
 
     class Meta:
         ordering = ("-event_date",)
+
+
+class SavedFavorite(TimestampedModel):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="saved_favorites")
+    project = models.ForeignKey("projects.Project", null=True, blank=True, on_delete=models.CASCADE, related_name="saved_by")
+    blog_post = models.ForeignKey("blog.Post", null=True, blank=True, on_delete=models.CASCADE, related_name="saved_by")
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=("user", "project", "blog_post"), name="unique_saved_favorite")]
+
+
+class ReadingHistory(TimestampedModel):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="reading_history")
+    blog_post = models.ForeignKey("blog.Post", on_delete=models.CASCADE, related_name="reading_history")
+    last_read_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=("user", "blog_post"), name="unique_reading_history")]
