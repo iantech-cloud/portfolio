@@ -50,6 +50,8 @@ else:
         os.environ.get("VERCEL_URL"),
         "localhost",
         "127.0.0.1",
+        "ianmuiruri.tech",
+        "www.ianmuiruri.tech",
     ) if host]
 
 if not DEBUG:

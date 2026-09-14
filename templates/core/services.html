@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Services — Ian Muiruri{% endblock %}
+{% block og_title %}Services — Ian Muiruri{% endblock %}
+
+{% block content %}
+<section class="page-hero services-hero">
+  <p class="eyebrow">01 / services</p>
+  <h1>Build, fix, secure, and <em>ship</em> digital systems.</h1>
+  <p class="lede">Practical technology services for businesses, startups, organisations, and individuals. Small fixes start at $30; complete and advanced projects range up to $500+ depending on scope.</p>
+  <div class="hero-actions"><a class="button button-primary" href="#service-list">explore services ↓</a><a class="button button-ghost" href="https://wa.me/639204185705?text=Hi%20Ian%2C%20I%27d%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener">message on WhatsApp ↗</a></div>
+</section>
+
+<section id="service-list" class="services-grid" aria-label="Services">
+  {% for service in service_groups %}
+  <article class="service-card">
+    <div class="service-card-top"><span class="service-number">{{ forloop.counter|stringformat:"02d" }}</span><span class="service-price">{{ service.price }}</span></div>
+    <h2>{{ service.title }}</h2>
+    <p class="service-intro">{{ service.intro }}</p>
+    <ul>{% for item in service.items %}<li>{{ item }}</li>{% endfor %}</ul>
+    {% with message="Hi Ian, I am interested in "|add:service.title|add:". Please share more details." %}<a class="text-link service-enquiry" href="https://wa.me/639204185705?text={{ message|urlencode }}" target="_blank" rel="noopener">enquire about {{ service.title|lower }} ↗</a>{% endwith %}
+  </article>
+  {% endfor %}
+</section>
+
+<section class="service-details split-section">
+  <div><p class="eyebrow">how we scope it</p><h2>Clear pricing for <em>real work.</em></h2></div>
+  <div class="pricing-copy"><p>Final pricing depends on project scope, technical complexity, urgency, integrations, and delivery requirements.</p><div class="pricing-list"><div><strong>$30 – $50</strong><span>Small fixes, scripts, simple debugging, and basic consultations.</span></div><div><strong>$50 – $100</strong><span>Medium fixes, integrations, database work, reviews, and automation.</span></div><div><strong>$100 – $200</strong><span>Django development, advanced WordPress, testing, and analysis.</span></div><div><strong>$200 – $500+</strong><span>Complete applications, SaaS MVPs, advanced security, and complex systems.</span></div></div></div>
+</section>
+
+<section class="tech-strip"><p class="eyebrow">toolkit</p><p>Python · Django · JavaScript · PHP · C++ · PostgreSQL · MongoDB · WordPress · WooCommerce · REST APIs · Linux · Git · SQL · Data Analysis · Machine Learning</p></section>
+{% endblock %}

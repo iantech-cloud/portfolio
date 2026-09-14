@@ -34,6 +34,18 @@ def about(request):
     })
 
 
+def services(request):
+    service_groups = [
+        {"title": "Python & Django", "price": "$30 – $500+", "intro": "Reliable Python development and Django systems, from focused fixes to complete applications.", "items": ["Automation, scripts, APIs, scraping, and data processing", "Django backends, dashboards, authentication, and business logic", "Database-driven applications, integrations, and performance work"]},
+        {"title": "Full-stack & WordPress", "price": "$30 – $500+", "intro": "Complete web experiences that are responsive, maintainable, and ready for real users.", "items": ["Business websites, portals, SaaS MVPs, and custom dashboards", "WordPress, WooCommerce, themes, plugins, and performance", "JavaScript interfaces, PHP maintenance, and API integration"]},
+        {"title": "Cybersecurity & hardening", "price": "$50 – $500+", "intro": "Practical security reviews and authorized testing that help teams find and fix risk.", "items": ["Web and API security assessments", "Authentication, authorization, headers, sessions, and input validation", "Remediation, hardening, secure architecture, and security reports"]},
+        {"title": "Data, ML & automation", "price": "$30 – $500+", "intro": "Turn messy data and repetitive processes into useful insight and dependable workflows.", "items": ["Data cleaning, analysis, visualization, and automated reporting", "Machine-learning prototypes, evaluation, and application integration", "Business, file, web, reporting, and API automation"]},
+        {"title": "APIs, payments & databases", "price": "$50 – $400+", "intro": "Connect the systems your product depends on and make data flow safely.", "items": ["REST APIs, webhooks, third-party services, and API security", "M-Pesa, STK Push, callbacks, wallets, and transaction verification", "PostgreSQL, MongoDB, data modeling, migrations, and query tuning"]},
+        {"title": "Linux, cloud & deployment", "price": "$50 – $300", "intro": "Get applications from a local machine to a stable, observable production environment.", "items": ["Django, Python, Node.js, Nginx, SSL, DNS, and process management", "Vercel, DigitalOcean, domains, databases, and environment variables", "Production debugging, static/media configuration, and performance"]},
+    ]
+    return render(request, "core/services.html", {"site": SiteSettings.objects.first(), "service_groups": service_groups})
+
+
 def certificates(request):
     return render(request, "core/certificates.html", {
         "site": SiteSettings.objects.first(),
@@ -47,7 +59,7 @@ def robots(request):
 
 
 def sitemap(request):
-    urls = [request.build_absolute_uri(reverse(name)) for name in ("core:home", "core:about", "core:contact", "projects:list", "skills:resume")]
+    urls = [request.build_absolute_uri(reverse(name)) for name in ("core:home", "core:about", "core:services", "core:contact", "projects:list", "skills:resume")]
     urls += [request.build_absolute_uri(project.get_absolute_url()) for project in Project.objects.all()]
     body = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">" + "".join(f"<url><loc>{escape(url)}</loc></url>" for url in urls) + "</urlset>"
     return HttpResponse(body, content_type="application/xml")
