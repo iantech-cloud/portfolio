@@ -32,7 +32,10 @@ urlpatterns = [
     path("ckeditor5/", include("django_ckeditor_5.urls")),
     path("qna/", include("qna.urls")),
     path("upwork/", include("upwork.urls")),
+    path("guestbook/", include("guestbook.urls")),
+    path("accounts/social/", include("allauth.urls")),
 ]
+
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
