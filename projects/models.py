@@ -47,6 +47,12 @@ class Project(TimestampedModel):
     impact_metric = models.CharField(max_length=120, blank=True)
     views_count = models.PositiveIntegerField(default=0)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=("status", "-created_at"), name="project_status_created_idx"),
+            models.Index(fields=("featured", "-created_at"), name="project_featured_created_idx"),
+        ]
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = unique_slug(self, self.title)

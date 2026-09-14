@@ -22,7 +22,7 @@ class Command(BaseCommand):
         site.hero_text = "I build serious systems at the intersection of analytical thinking, practical software, and security."
         site.about_text = "I am Ian Muiruri Waiganjo — a statistician by academic foundation, developer and system builder by practice, cybersecurity enthusiast by direction, researcher by mindset, entrepreneur by ambition, and lifelong learner by choice."
         site.location = "Nairobi, Kenya"
-        site.email = "hello@ianmuiruri.com"
+        site.email = "muiruriian82@gmail.com"
         site.save()
 
         user, created = User.objects.get_or_create(username="iano", defaults={"email": "hello@example.com", "first_name": "Iano"})
