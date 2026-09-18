@@ -5,14 +5,26 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}Ian Muiruri | Software Engineer, Django Developer & Cybersecurity Specialist{% endblock %}</title>
-  <meta name="description" content="Ian Muiruri builds Django applications, APIs, data tools, and secure digital systems for businesses and startups.">
+  <meta name="description" content="{% block meta_description %}Ian Muiruri builds Django applications, APIs, data tools, and secure digital systems for businesses and startups.{% endblock %}">
+  <meta name="robots" content="{% block robots %}index, follow, max-image-preview:large{% endblock %}">
+  <meta name="author" content="Ian Muiruri Waiganjo">
+  <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
   <link rel="icon" type="image/svg+xml" href="{% static 'images/ianmuiruri-logo.svg' %}">
   <link rel="apple-touch-icon" href="{% static 'images/ianmuiruri-logo.svg' %}">
   <meta property="og:title" content="{% block og_title %}IAN MUIRURI WAIGANJO — systems portfolio{% endblock %}">
-  <meta property="og:description" content="{{ site.about_text|default:'Software, data, security, and research.' }}">
-  <meta property="og:type" content="website">
+  <meta property="og:description" content="{% block og_description %}Ian Muiruri builds useful, secure software with Python, Django, data, and automation.{% endblock %}">
+  <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+  <meta property="og:site_name" content="Ian Muiruri">
+  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/ianmuiruri-logo.svg' %}">
+  <meta property="og:image:alt" content="Ian Muiruri logo">
+  <meta property="og:type" content="{% block og_type %}website{% endblock %}">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="{% block twitter_title %}Ian Muiruri | Software Engineer{% endblock %}">
+  <meta name="twitter:description" content="{% block twitter_description %}Python, Django, cybersecurity, data, and automation by Ian Muiruri.{% endblock %}">
   <meta name="theme-color" content="#111612">
-  <link rel="canonical" href="{{ request.build_absolute_uri }}">
+  <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"Person","name":"Ian Muiruri Waiganjo","url":"{{ request.scheme }}://{{ request.get_host }}{% url 'core:home' %}","jobTitle":"Software Engineer","description":"Software engineer specializing in Python, Django, cybersecurity, data, and automation.","email":"mailto:muiruriian82@gmail.com","telephone":"+63 920 418 5705","sameAs":["https://github.com/ianmuiruri"]}
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">

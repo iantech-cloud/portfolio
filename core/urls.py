@@ -12,4 +12,5 @@ urlpatterns = [
     path("contact/", views.contact, name="contact"),
     path("sitemap.xml", views.sitemap, name="sitemap"),
     path("robots.txt", views.robots, name="robots"),
+    path("llms.txt", views.llms, name="llms"),
 ]

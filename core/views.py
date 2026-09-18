@@ -55,7 +55,32 @@ def certificates(request):
 
 
 def robots(request):
-    return HttpResponse(f"User-agent: *\nAllow: /\nSitemap: {request.build_absolute_uri(reverse('core:sitemap'))}\n", content_type="text/plain")
+    return HttpResponse(
+        f"User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /dashboard/\nDisallow: /accounts/\nSitemap: {request.build_absolute_uri(reverse('core:sitemap'))}\n",
+        content_type="text/plain",
+    )
+
+
+def llms(request):
+    content = """# Ian Muiruri
+
+> Ian Muiruri is a software engineer specializing in Python, Django, cybersecurity, data, automation, APIs, and production web systems.
+
+## About
+Ian designs and ships practical, secure digital products for businesses and startups. His work spans backend engineering, full-stack web development, security hardening, data workflows, and cloud deployment.
+
+## Primary pages
+- [Home](%s)
+- [About](%s)
+- [Services](%s)
+- [Projects](%s)
+- [Resume](%s)
+- [Contact](%s)
+
+## Contact
+For project inquiries, use the contact page or email muiruriian82@gmail.com.
+""" % tuple(request.build_absolute_uri(reverse(name)) for name in ("core:home", "core:about", "core:services", "projects:list", "skills:resume", "core:contact"))
+    return HttpResponse(content, content_type="text/plain")
 
 
 def sitemap(request):
