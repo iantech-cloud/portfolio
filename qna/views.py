@@ -37,6 +37,7 @@ def question_detail(request, slug):
 
 
 @login_required
+@require_POST
 def answer_question(request, slug):
     question = get_object_or_404(Question, slug=slug, status__in=("open", "answered"))
     form = AnswerForm(request.POST)
@@ -66,18 +67,21 @@ def _vote(request, model, target, vote_field, counter_field):
 
 
 @login_required
+@require_POST
 def vote_question(request, slug):
     question = get_object_or_404(Question, slug=slug)
     return _vote(request, QuestionVote, question, "value", "vote_count")
 
 
 @login_required
+@require_POST
 def vote_answer(request, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
     return _vote(request, AnswerVote, answer, "value", "vote_count")
 
 
 @login_required
+@require_POST
 def accept_answer(request, answer_id):
     answer = get_object_or_404(Answer.objects.select_related("question"), pk=answer_id)
     if answer.question.author_id != request.user.id:

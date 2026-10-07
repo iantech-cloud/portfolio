@@ -78,7 +78,7 @@ Ian designs and ships practical, secure digital products for businesses and star
 - [Contact](%s)
 
 ## Contact
-For project inquiries, use the contact page or email muiruriian82@gmail.com.
+For project inquiries, use the contact page or email ian@ianmuiruri.tech.
 """ % tuple(request.build_absolute_uri(reverse(name)) for name in ("core:home", "core:about", "core:services", "projects:list", "skills:resume", "core:contact"))
     return HttpResponse(content, content_type="text/plain")
 
@@ -101,9 +101,10 @@ def contact(request):
         send_mail(
             subject=f"Portfolio contact: {contact.subject}",
             message=f"From: {contact.name} <{contact.email}>\\n\\n{contact.message}",
-            from_email=settings.DEFAULT_FROM_EMAIL if hasattr(settings, "DEFAULT_FROM_EMAIL") else contact.email,
-            recipient_list=[site.email] if (site := SiteSettings.objects.first()) else [contact.email],
-            fail_silently=True,
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[settings.CONTACT_EMAIL],
+            reply_to=[contact.email],
+            fail_silently=False,
         )
         messages.success(request, "Message received. I’ll get back to you soon.")
         return redirect("core:contact")
