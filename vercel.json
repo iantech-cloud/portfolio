@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "buildCommand": "python manage.py collectstatic --noinput",
   "builds": [
     {
       "src": "api/index.py",
@@ -10,10 +9,10 @@
   "routes": [
     {
       "src": "/static/(.*)",
-      "dest": "/productsites/$1",
       "headers": {
         "cache-control": "public, max-age=31536000, immutable"
-      }
+      },
+      "continue": true
     },
     {
       "src": "/(.*)",

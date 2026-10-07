@@ -21,9 +21,9 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="{% block twitter_title %}Ian Muiruri | Software Engineer{% endblock %}">
   <meta name="twitter:description" content="{% block twitter_description %}Python, Django, cybersecurity, data, and automation by Ian Muiruri.{% endblock %}">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#111612">
   <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"Person","name":"Ian Muiruri Waiganjo","url":"{{ request.scheme }}://{{ request.get_host }}{% url 'core:home' %}","jobTitle":"Software Engineer","description":"Software engineer specializing in Python, Django, cybersecurity, data, and automation.","email":"mailto:ian@ianmuiruri.tech","telephone":"+63 920 418 5705","sameAs":["https://github.com/ianmuiruri"]}
+    {"@context":"https://schema.org","@type":"Person","name":"Ian Muiruri Waiganjo","url":"{{ request.scheme }}://{{ request.get_host }}{% url 'core:home' %}","jobTitle":"Software Engineer","description":"Software engineer specializing in Python, Django, cybersecurity, data, and automation.","email":"mailto:muiruriian82@gmail.com","telephone":"+63 920 418 5705","sameAs":["https://github.com/ianmuiruri"]}
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -57,10 +57,10 @@
         url: absoluteUrl(card.dataset.projectUrl || card.getAttribute('href') || '/projects/')
       }));
       const tools = [
-        { name: 'get_portfolio_profile', description: 'Get Ian Muiruri’s professional focus and contact destinations.', inputSchema: { type: 'object', properties: {} }, execute: async () => ({ name: 'Ian Muiruri', focus: 'Software engineering, Python, Django, cybersecurity, data, and automation.', email: 'ian@ianmuiruri.tech', phone: '+63 920 418 5705', contactUrl: absoluteUrl('/contact/') }) },
+        { name: 'get_portfolio_profile', description: 'Get Ian Muiruri’s professional focus and contact destinations.', inputSchema: { type: 'object', properties: {} }, execute: async () => ({ name: 'Ian Muiruri', focus: 'Software engineering, Python, Django, cybersecurity, data, and automation.', email: 'muiruriian82@gmail.com', phone: '+63 920 418 5705', contactUrl: absoluteUrl('/contact/') }) },
         { name: 'search_portfolio_projects', description: 'Search the projects currently visible in Ian Muiruri’s portfolio.', inputSchema: { type: 'object', properties: { query: { type: 'string', description: 'A project title or keyword.' } } }, execute: async ({ query = '' }) => { const needle = String(query).trim().toLowerCase(); return projectRecords().filter((project) => !needle || `${project.title} ${project.summary}`.toLowerCase().includes(needle)); } },
         { name: 'get_current_project', description: 'Get details for the project currently open in the portfolio.', inputSchema: { type: 'object', properties: {} }, execute: async () => { const project = document.querySelector('[data-webmcp-project]'); if (!project) return { error: 'No project detail page is open.' }; return { title: project.dataset.projectTitle || '', summary: project.dataset.projectSummary || '', description: project.dataset.projectDescription || '', url: absoluteUrl(project.dataset.projectUrl || window.location.pathname) }; } },
-        { name: 'get_contact_options', description: 'Get contact options without sending a message or navigating the visitor.', inputSchema: { type: 'object', properties: {} }, execute: async () => ({ email: 'ian@ianmuiruri.tech', phone: '+63 920 418 5705', whatsapp: 'https://wa.me/639204185705', contactUrl: absoluteUrl('/contact/') }) }
+        { name: 'get_contact_options', description: 'Get contact options without sending a message or navigating the visitor.', inputSchema: { type: 'object', properties: {} }, execute: async () => ({ email: 'muiruriian82@gmail.com', phone: '+63 920 418 5705', whatsapp: 'https://wa.me/639204185705', contactUrl: absoluteUrl('/contact/') }) }
       ];
       try { modelContext.provideContext({ tools }); } catch (error) { console.warn('[WebMCP] Tool registration unavailable.', error); }
     })();
