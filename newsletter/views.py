@@ -1,5 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, redirect
+from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.views.decorators.http import require_http_methods
 from django.core.paginator import Paginator
 from .models import NewsletterSubscriber, NewsletterCampaign
@@ -9,7 +11,9 @@ from .forms import NewsletterSignupForm
 @require_http_methods(["POST"])
 def subscribe(request):
     form = NewsletterSignupForm(request.POST)
-    next_url = request.POST.get("next", "core:home")
+    next_url = request.POST.get("next", "")
+    if not url_has_allowed_host_and_scheme(next_url, {request.get_host()}):
+        next_url = reverse("core:home")
     if form.is_valid():
         subscriber = form.save()
         messages.success(request, "Check your email to confirm your subscription.")
@@ -21,6 +25,7 @@ def subscribe(request):
         return redirect(next_url)
 
 
+@require_http_methods(["GET"])
 def confirm_subscription(request, token):
     subscriber = get_object_or_404(NewsletterSubscriber, confirmation_token=token)
     if subscriber.status == "confirmed":
@@ -31,6 +36,7 @@ def confirm_subscription(request, token):
     return redirect("core:home")
 
 
+@require_http_methods(["GET"])
 def unsubscribe(request, token):
     subscriber = get_object_or_404(NewsletterSubscriber, unsubscribe_token=token)
     subscriber.unsubscribe()
