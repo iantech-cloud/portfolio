@@ -4,6 +4,7 @@ from django.db import transaction
 from django.db.models import F, Q
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.decorators.http import require_POST
 
 from .forms import AnswerForm, QuestionForm
 from .models import Answer, AnswerVote, Question, QuestionVote
