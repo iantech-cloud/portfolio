@@ -1,8 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
 from django.shortcuts import redirect, render
 
 from .forms import ProfileForm, SignUpForm
@@ -30,16 +28,10 @@ def profile(request):
 @login_required
 def settings(request):
     if request.method == "POST":
-        email = request.POST.get("email", "").strip()
-        try:
-            validate_email(email)
-        except ValidationError:
-            messages.error(request, "Enter a valid email address.")
-        else:
-            request.user.email = email
-            request.user.save(update_fields=["email"])
-            messages.success(request, "Account settings updated.")
-            return redirect("accounts:settings")
+        request.user.email = request.POST.get("email", request.user.email).strip()
+        request.user.save(update_fields=["email"])
+        messages.success(request, "Account settings updated.")
+        return redirect("accounts:settings")
     return render(request, "accounts/settings.html")
 
 
