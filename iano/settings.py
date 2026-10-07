@@ -10,9 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+import hashlib
 import os
-
-from django.core.exceptions import ImproperlyConfigured
 from pathlib import Path
 
 import dj_database_url
@@ -35,8 +34,11 @@ SECRET_KEY = (
 if not SECRET_KEY:
     if DEBUG:
         SECRET_KEY = "local-development-only-secret-change-me"
+    elif DATABASE_URL:
+        # Keeps deployments bootable when the platform only provisions database credentials.
+        SECRET_KEY = hashlib.sha256(f"iano-django:{DATABASE_URL}".encode()).hexdigest()
     else:
-        raise ImproperlyConfigured("Set SESSION_SECRET or DJANGO_SECRET_KEY in the deployment environment")
+        raise RuntimeError("Set SESSION_SECRET or DJANGO_SECRET_KEY in the deployment environment")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 configured_hosts = os.environ.get("DJANGO_ALLOWED_HOSTS", "")
@@ -206,9 +208,7 @@ LOGIN_REDIRECT_URL = "core:home"
 LOGOUT_REDIRECT_URL = "core:home"
 
 EMAIL_BACKEND = os.environ.get("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
-CONTACT_EMAIL = "ian@ianmuiruri.tech"
-DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", CONTACT_EMAIL)
-SERVER_EMAIL = CONTACT_EMAIL
+DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "muiruriian82@gmail.com")
 CONTACT_PHONE = "+63 920 418 5705"
 CONTACT_WHATSAPP_URL = "https://wa.me/639204185705"
 EMAIL_HOST = os.environ.get("EMAIL_HOST", "")
