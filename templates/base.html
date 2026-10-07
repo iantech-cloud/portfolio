@@ -21,7 +21,7 @@
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="{% block twitter_title %}Ian Muiruri | Software Engineer{% endblock %}">
   <meta name="twitter:description" content="{% block twitter_description %}Python, Django, cybersecurity, data, and automation by Ian Muiruri.{% endblock %}">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#111612">
   <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"Person","name":"Ian Muiruri Waiganjo","url":"{{ request.scheme }}://{{ request.get_host }}{% url 'core:home' %}","jobTitle":"Software Engineer","description":"Software engineer specializing in Python, Django, cybersecurity, data, and automation.","email":"mailto:muiruriian82@gmail.com","telephone":"+63 920 418 5705","sameAs":["https://github.com/ianmuiruri"]}
   </script>
@@ -38,13 +38,13 @@
     <nav id="primary-navigation" class="primary-navigation" aria-label="Primary navigation">
       <a href="{% url 'projects:list' %}">work</a><a href="{% url 'core:services' %}">services</a><a href="{% url 'core:about' %}">about</a><a href="{% url 'skills:resume' %}">resume</a><a href="{% url 'core:contact' %}">contact</a>
     </nav>
-    <div class="nav-actions"><button class="theme-toggle" type="button" aria-label="Toggle color theme" aria-pressed="false"><span class="theme-icon" aria-hidden="true">◐</span><span class="theme-label">theme</span></button><a class="button button-ghost nav-cta" href="{% url 'core:contact' %}">let’s talk ↗</a></div>
+    <div class="nav-actions"><button class="theme-toggle" type="button" aria-label="Toggle color theme">◐</button><a class="button button-ghost nav-cta" href="{% url 'core:contact' %}">let’s talk ↗</a></div>
   </header>
   {% if messages %}<div class="flash-wrap">{% for message in messages %}<div class="flash">{{ message }}</div>{% endfor %}</div>{% endif %}
   <main>{% block content %}{% endblock %}</main>
   <footer class="footer"><div><span class="status-dot"></span> available for interesting problems</div><div>built with Python / Django / too much curiosity</div><div class="footer-links"><a href="{% url 'core:contact' %}">start a conversation ↗</a></div></footer>
   <script>
-    (() => { const toggle=document.querySelector('.menu-toggle'), nav=document.querySelector('#primary-navigation'), theme=document.querySelector('.theme-toggle'); if(toggle&&nav){toggle.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')==='true';toggle.setAttribute('aria-expanded',String(!open));nav.classList.toggle('is-open',!open);});nav.addEventListener('click',e=>{if(e.target.closest('a')){toggle.setAttribute('aria-expanded','false');nav.classList.remove('is-open');}});} if(theme){const root=document.documentElement;const sync=()=>{const light=root.dataset.theme==='light';theme.setAttribute('aria-pressed',String(light));theme.querySelector('.theme-label').textContent=light?'dark':'light';theme.querySelector('.theme-icon').textContent=light?'☾':'◐';};sync();theme.addEventListener('click',()=>{root.dataset.theme=root.dataset.theme==='light'?'dark':'light';sync();});} })();
+    (() => { const toggle=document.querySelector('.menu-toggle'), nav=document.querySelector('#primary-navigation'), theme=document.querySelector('.theme-toggle'); if(toggle&&nav){toggle.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')==='true';toggle.setAttribute('aria-expanded',String(!open));nav.classList.toggle('is-open',!open);});nav.addEventListener('click',e=>{if(e.target.closest('a')){toggle.setAttribute('aria-expanded','false');nav.classList.remove('is-open');}});} if(theme){theme.addEventListener('click',()=>{const next=document.documentElement.dataset.theme==='light'?'dark':'light';document.documentElement.dataset.theme=next;});} })();
   </script>
   <script>
     (() => {
